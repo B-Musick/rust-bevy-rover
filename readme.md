@@ -334,6 +334,82 @@ fn spawn_things(
         .retain::<(TransformBundle, ComponentC)>();
 }
 ```
+
+## When actions are applied
+- Next frame update:
+```
+app.add_systems(Update, spawn_new_enemies_if_needed);
+```
+
+# Events
+- Can broadcast events to other entities
+https://bevy-cheatbook.github.io/programming/events.html
+
+# Plugins
+https://bevy-cheatbook.github.io/programming/plugins.html
+- Make code modular
+- Collections of things to be added to AppBuilder
+
+## How to make
+- Either way, you get &mut access to the App, so you can add whatever you want to it, just like you can do from your fn main()
+
+### Function
+```
+fn my_plugin(app: &mut App) {
+    app.init_resource::<MyCustomResource>();
+    app.add_systems(Update, (
+        do_some_things,
+        do_other_things,
+    ));
+}
+```
+
+### Plugin Trait
+```
+struct MyPlugin;
+
+impl Plugin for MyPlugin {
+    fn build(&self, app: &mut App) {
+        app.init_resource::<MyOtherResource>();
+        app.add_event::<MyEvent>();
+        app.add_systems(Startup, plugin_init);
+        app.add_systems(Update, my_system);
+    }
+}
+```
+
+## Add plugin to main
+```
+fn main() {
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .add_plugins((
+            my_plugin, // the `fn`-based plugin
+            MyPlugin,  // the `struct`-based plugin
+        ))
+        .run();
+}
+```
+
+# Bevy Game engine
+
+## Coordinate system
+https://bevy-cheatbook.github.io/fundamentals/coords.html
+- Right handed
+- Thus forward is (-Z)
+
+## Transform
+https://bevy-cheatbook.github.io/fundamentals/transforms.html
+- A Transform is what allows you to place an object in the game world. It is a combination of the object's "translation" (position/coordinates), "rotation", and "scale" (size adjustment).
+
+## Physics engine
+https://sburris.xyz/posts/bevy-gravity/
+
+# Working with 3D
+
+## 3D Camera
+https://bevy-cheatbook.github.io/3d/camera.html#creating-a-3d-camera
+- How to instantiate 3d camera
 # Sources
 https://poly.pizza/bundle/Ultimate-Space-Kit-YWh743lqGX
 

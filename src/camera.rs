@@ -15,8 +15,9 @@ impl Plugin for CameraPlugin {
 
 fn spawn_camera(mut commands: Commands) {
     // Spawn Camera3dBundle entity
+    // https://bevy-cheatbook.github.io/3d/camera.html#creating-a-3d-camera
     commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(0.0, CAMERA_DISTANCE, 0.0).looking_at(Vec3::ZERO, Vec3::Z),
+        transform: Transform::from_xyz(0.0, 6.0, -16.0).looking_at(Vec3::ZERO, Vec3::Y),
         ..default()
     });
 }
