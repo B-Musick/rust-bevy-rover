@@ -3,6 +3,8 @@ mod movement;
 mod camera;
 mod debug;
 mod asset_loader;
+mod despawn;
+mod floor;
 
 use bevy::prelude::*;
 
@@ -11,6 +13,8 @@ use movement::MovementPlugin;
 use camera::CameraPlugin;
 use debug::DebugPlugin;
 use rover::RoverPlugin;
+use despawn::DespawnPlugin;
+use floor::FloorPlugin;
 
 fn main() {
     App::new()
@@ -26,5 +30,7 @@ fn main() {
         .add_plugins(DebugPlugin)
         .add_plugins(RoverPlugin)
         .add_plugins(CameraPlugin)
+        .add_plugins(DespawnPlugin)
+        .add_plugins(FloorPlugin)
         .run();
 }
