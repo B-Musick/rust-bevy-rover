@@ -2,9 +2,11 @@ mod rover;
 mod movement;
 mod camera;
 mod debug;
+mod asset_loader;
 
 use bevy::prelude::*;
 
+use asset_loader::AssetLoaderPlugin;
 use movement::MovementPlugin;
 use camera::CameraPlugin;
 use debug::DebugPlugin;
@@ -19,6 +21,7 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         // User defined plugins.
+        .add_plugins(AssetLoaderPlugin)
         .add_plugins(MovementPlugin)
         .add_plugins(DebugPlugin)
         .add_plugins(RoverPlugin)

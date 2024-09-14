@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::movement::{Acceleration, MovingObjectBundle, Velocity};
+use crate::{
+    asset_loader::SceneAssets,
+    movement::{Acceleration, MovingObjectBundle, Velocity}
+};
 
 const STARTING_TRANSLATION: Vec3 = Vec3::new(0.0, 0.0, 0.0);
 const ROVER_SPEED: f32 = 25.0;
@@ -16,20 +19,21 @@ impl Plugin for RoverPlugin {
     // Need to call impl when defining method within
     fn build(&self, app: &mut App) {
         // Need to call &self since we are referencing the Plugin and we dont want to take ownership so we use &
-        app.add_systems(Startup, spawn_rover).add_systems(
+        app.add_systems(PostStartup, spawn_rover).add_systems(
+            // HAve to add PostStartup so that the assets load first
             Update,
             rover_movement_controls
         );
     }
 }
 
-fn spawn_rover(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn spawn_rover(mut commands: Commands, scene_assets: Res<SceneAssets>) {
     commands.spawn((
         MovingObjectBundle {
             velocity: Velocity::new(Vec3::ZERO),
             acceleration: Acceleration::new(Vec3::ZERO),
             model: SceneBundle {
-                scene: asset_server.load("Rover.glb#Scene0"),
+                scene: scene_assets.rover.clone(),
                 transform: Transform::from_translation(STARTING_TRANSLATION),
                 ..default()
             },
